@@ -1,0 +1,9 @@
+# dependencies
+/node_modules
+
+# prod build
+/build
+
+# config
+.env 
+.env.local
