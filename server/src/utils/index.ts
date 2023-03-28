@@ -1,5 +1,6 @@
 import { REQUEST_STATUS } from "types/enums";
 import { APIResponse } from "../types";
+import { v4 as uuid } from "uuid";
 
 const getErrorResponse = (message: string) =>
   ({
@@ -15,4 +16,6 @@ const getSuccessResponse = ({ data, message }: Partial<APIResponse>) =>
     message,
   } as APIResponse);
 
-export { getErrorResponse, getSuccessResponse };
+const generateUniqueId = () => uuid();
+
+export { getErrorResponse, getSuccessResponse, generateUniqueId };

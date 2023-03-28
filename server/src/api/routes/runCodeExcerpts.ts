@@ -1,3 +1,5 @@
+import executeExcerpt from "api/utils/executeExcerpt";
+import generateFile from "api/utils/generateFile";
 import { Router } from "express";
 import { CodeExcerpt } from "types";
 import { ALLOWED_LANGUAGES } from "types/enums";
@@ -10,12 +12,26 @@ router.post("/", async (req, res) => {
     req.body as CodeExcerpt;
 
   if (!excerpt)
-    res.status(400).json(getErrorResponse("Cannot execute empty code excerpt"));
+    return res
+      .status(400)
+      .json(getErrorResponse("Cannot execute empty code excerpt"));
 
-  res.status(200).json({
-    language,
-    excerpt,
-  } as CodeExcerpt);
+  try {
+    // Get the file path to execute.
+    const filePath = await generateFile({ language, excerpt });
+
+    // Brew an executable file and then execute the code excerpt.
+    const output = await executeExcerpt(filePath);
+    res.status(200).json({
+      filePath,
+      output,
+    });
+  } catch (error) {
+    console.error("Error running the excerpt ", error);
+    res
+      .status(500)
+      .json(getErrorResponse(`Error running the excerpt, ${JSON.stringify(error)}`));
+  }
 });
 
 export default router;
