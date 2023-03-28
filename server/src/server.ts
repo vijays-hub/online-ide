@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import runCodeExcerpts from "api/routes/runCodeExcerpts";
 
 const app = express();
 
@@ -17,5 +18,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+// API Routes --> START
+app.use("/run", runCodeExcerpts);
+// API Routes --> END
 
 export default app;
