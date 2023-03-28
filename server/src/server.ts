@@ -1,17 +1,21 @@
 import express from "express";
+import cors from "cors";
 
-const main = () => {
-  const app = express();
+const app = express();
 
-  const PORT = process.env.PORT || 8080;
+app.use(
+  cors({
+    origin: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
+  })
+);
 
-  app.get("/", (req, res) => {
-    res.status(200).json({ msg: "BRAND NEW SHIZZZ!" });
-  });
+// Prase the client data to use it from req.body.
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+app.use(express.json());
 
-  app.listen(PORT, () => {
-    console.log(`Server listening at http://localhost:${PORT}`);
-  });
-};
-
-main();
+export default app;
