@@ -8,6 +8,7 @@ type CodeExcerpt = {
 type APIResponse = {
   status: REQUEST_STATUS;
   message: string;
+  error?: unknown;
   data: unknown;
 };
 

@@ -3,7 +3,7 @@ import generateFile from "api/utils/generateFile";
 import { Router } from "express";
 import { CodeExcerpt } from "types";
 import { ALLOWED_LANGUAGES } from "types/enums";
-import { getErrorResponse } from "utils";
+import { getErrorResponse, getSuccessResponse } from "utils";
 
 const router = Router();
 
@@ -22,15 +22,19 @@ router.post("/", async (req, res) => {
 
     // Brew an executable file and then execute the code excerpt.
     const output = await executeExcerpt(filePath);
-    res.status(200).json({
-      filePath,
-      output,
-    });
+    res.status(200).json(
+      getSuccessResponse({
+        data: output,
+        message: "code compiled successfully",
+      })
+    );
   } catch (error) {
     console.error("Error running the excerpt ", error);
     res
       .status(500)
-      .json(getErrorResponse(`Error running the excerpt, ${JSON.stringify(error)}`));
+      .json(
+        getErrorResponse(`Error running the excerpt`, error)
+      );
   }
 });
 
