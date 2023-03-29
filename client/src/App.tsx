@@ -4,6 +4,7 @@ function App() {
   const [excerpt, setExcerpt] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
+  const [language, setLanguage] = useState("");
 
   const [requestLoading, setRequestLoading] = useState(false);
 
@@ -19,14 +20,15 @@ function App() {
           "Content-type": "application/json",
         },
         body: JSON.stringify({
-          language: "cpp",
+          language,
           excerpt,
         }),
       }).then((response) => response.json());
 
       // Use message for alerts.
       // if (res.status === "error") return setError(res.message);
-      if (res.status === "error") return setError(res.error.stderr.split("error:")[1]); // TODO: Find better way.
+      if (res.status === "error")
+        return setError(res.error.stderr.split("error:")[1]); // TODO: Find better way.
       setOutput(res.data);
     } catch (error) {
       console.error("Error running the script", error);
@@ -43,10 +45,24 @@ function App() {
     >
       <h1>New Shizzz!</h1>
       <p>
-        Add types, introduce axios, add proper styling.. etc... Figure out
-        converting /n to new line.
+        Add types, introduce axios, add proper styling, clean structureing of
+        code.. etc... Figure out converting /n to new line.
       </p>
 
+      <br />
+      <br />
+      <label htmlFor="language_picker">Language </label>
+      <select
+        name="language-selector"
+        id="language_picker"
+        onChange={({ target: { value: language } }) => setLanguage(language)}
+      >
+        <option value="cpp">C++</option>
+        <option value="py">Python</option>
+        <option value="java">Java</option>
+        <option value="js">JavaScript</option>
+      </select>
+      <br />
       <br />
       <textarea
         name="code-area"
