@@ -28,7 +28,7 @@ function App() {
       // Use message for alerts.
       // if (res.status === "error") return setError(res.message);
       if (res.status === "error")
-        return setError(res.error.stderr.split("error:")[1]); // TODO: Find better way.
+        return setError(res.error.stderr);
       setOutput(res.data);
     } catch (error) {
       console.error("Error running the script", error);
