@@ -12,4 +12,9 @@ type APIResponse = {
   data: unknown;
 };
 
-export type { CodeExcerpt, APIResponse };
+type ShellCommandInput = {
+  filePath: string;
+  language: ALLOWED_LANGUAGES;
+};
+
+export type { CodeExcerpt, APIResponse, ShellCommandInput };
